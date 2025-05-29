@@ -68,6 +68,7 @@ pipeline {
           cp fastapi/values.yaml values.yml
           cat values.yml
           sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
+          kubectl create namespace dev || echo "Namespace dev already exists"
           helm upgrade --install app fastapi --values=values.yml --namespace dev
           '''
         }
@@ -88,6 +89,7 @@ pipeline {
           cp fastapi/values.yaml values.yml
           cat values.yml
           sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
+          kubectl create namespace staging || echo "Namespace staging already exists"
           helm upgrade --install app fastapi --values=values.yml --namespace staging
           '''
         }
@@ -113,6 +115,7 @@ pipeline {
           cp fastapi/values.yaml values.yml
           cat values.yml
           sed -i "s+tag.*+tag: ${DOCKER_TAG}+g" values.yml
+          kubectl create namespace prod || echo "Namespace prod already exists"
           helm upgrade --install app fastapi --values=values.yml --namespace prod
           '''
         }
